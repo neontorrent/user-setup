@@ -1,0 +1,6 @@
+[submodule "windows"]
+	path = windows
+	url = ./windows
+[submodule "macos"]
+	path = macos
+	url = ./macos
