@@ -1,0 +1,12 @@
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set autoindent
+set ignorecase
+set hlsearch
+
+syntax on
+vnorem n y/<c-r>"<cr>
+vnorem p "_dP
+vnorem << <<gv
+vnorem >> >>gv
