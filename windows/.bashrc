@@ -39,4 +39,15 @@ function ssh_tb {
     ssh -F/dev/null bruce@texasbruce.com
 }
 
+export GIT_TERMINAL_PROMPT=1
+
+export GOPATH=C:/Data/lib/go
+
+if [ -n $MSYSETM ]; then
+    export PATH=/mingw64/bin/:/c/Data/opt/go/go-1.10.3/bin:/c/Data/opt/scala/scala-2.12.6/bin:/c/Data/opt/sbt/bin:/c/Data/bin:/c/Data/opt/java/jdk1.8.0_171/bin:"$PATH"
+else
+    export PATH=/cygdrive/c/Data/opt/go/go-1.10.3/bin:/cygdrive/c/Data/opt/scala/scala-2.12.6/bin:/cygdrive/c/Data/opt/sbt/bin:/cygdrive/c/Data/bin:/cygdrive/c/Data/opt/java/jdk1.8.0_171/bin:"$PATH"
+fi
+
+
 [ $TERM != "cygwin" ] && [ -z $TMUX ] && tmux
