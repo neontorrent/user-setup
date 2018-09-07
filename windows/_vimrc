@@ -176,3 +176,6 @@ set wrapmargin=0
 set wrap
 set ignorecase
 colorscheme desert
+
+vnoremap <C-c> "+y
+vnoremap <C-v> "+gP
