@@ -28,3 +28,7 @@ function sdk {
     export SDKMAN_DIR="/Users/bruce/.sdkman"
     [[ -s "/Users/bruce/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/bruce/.sdkman/bin/sdkman-init.sh"
 }
+
+source scl_source enable devtoolset-7
+
+[ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]] && exec tmux
