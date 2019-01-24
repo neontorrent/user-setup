@@ -40,25 +40,22 @@ function set_java {
     fi
 }
 
-
 export GIT_TERMINAL_PROMPT=1
 export SCALA_HOME=${HOME}/opt/scala/scala-2.12.6
 export GOPATH=${HOME}/.go
-export PKG_CONFIG_PATH=/mingw64/lib/pkgconfig
 
 if [ -n "$MSYSTEM" ]; then
 
         alias jshell="winpty jshell"
 
+        export PKG_CONFIG_PATH=/mingw64/lib/pkgconfig
         export DOCKER_ROOT=/d/Applications/Docker\ Toolbox
         export NODE_REPL_HISTORY=E:/.node_repl_history
 
-        export USEROPT=${HOME}/.windows
+        export JAVA_HOME=${HOME}/opt/java/jdk-11.0.1
+        export GOROOT=${HOME}/opt/go/go-1.11.4-windows-amd64
 
-        export JAVA_HOME=${USEROPT}/java/jdk-11.0.1
-        export GOROOT=${USEROPT}/go/go-1.11.4-windows-amd64
-
-        export PATH=${USEROPT}/Git/cmd:${USEROPT}/ffmpeg/bin:${USEROPT}/nim/nim-0.19.0/bin:${DOCKER_ROOT}/:${JAVA_HOME}/bin:${SCALA_HOME}/bin:${GOROOT}/bin:${HOME}/bin:/mingw64/bin/:$PATH
+        export PATH=${HOME}/opt/Git/cmd:${HOME}/opt/ffmpeg/bin:${DOCKER_ROOT}/:${JAVA_HOME}/bin:${SCALA_HOME}/bin:${GOROOT}/bin:${HOME}/bin:/mingw64/bin/:$PATH
 
 else
 
