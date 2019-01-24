@@ -8,14 +8,19 @@ alias psw='ps -eflW'
 alias killw='taskkill /F /pid '
 alias killall='TaskKill /F /IM '
 
-export ANT_HOME=~/bin/apache-ant-1.9.2
-export JAVA_HOME=~/bin/java/jdk1.6.0_25
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
 export M2_HOME=~/bin/apache-maven-2.2.1
 export AXIS2_HOME=~/bin/axis2-1.7.0
-export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$M2_HOME/bin:$AXIS2_HOME/bin:~/bin:$PATH
-
-export ANT_OPTS=" -Xms512m -Xmx4028m"
-
 export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \@ > \[\e[33m\]\w\[\e[0m\]\n\$"
 
 function tmux_insert_window {
@@ -35,19 +40,41 @@ function set_java {
     fi
 }
 
-function ssh_tb {
-    ssh -F/dev/null bruce@texasbruce.com
-}
 
 export GIT_TERMINAL_PROMPT=1
+export SCALA_HOME=${HOME}/opt/scala/scala-2.12.6
+export GOPATH=${HOME}/.go
+export PKG_CONFIG_PATH=/mingw64/lib/pkgconfig
 
-export GOPATH=C:/Data/lib/go
+if [ -n "$MSYSTEM" ]; then
 
-if [ -n $MSYSETM ]; then
-    export PATH=/mingw64/bin/:/c/Data/opt/go/go-1.10.3/bin:/c/Data/opt/scala/scala-2.12.6/bin:/c/Data/opt/sbt/bin:/c/Data/bin:/c/Data/opt/java/jdk1.8.0_171/bin:"$PATH"
+        alias jshell="winpty jshell"
+
+        export DOCKER_ROOT=/d/Applications/Docker\ Toolbox
+        export NODE_REPL_HISTORY=E:/.node_repl_history
+
+        export USEROPT=${HOME}/.windows
+
+        export JAVA_HOME=${USEROPT}/java/jdk-11.0.1
+        export GOROOT=${USEROPT}/go/go-1.11.4-windows-amd64
+
+        export PATH=${USEROPT}/Git/cmd:${USEROPT}/ffmpeg/bin:${USEROPT}/nim/nim-0.19.0/bin:${DOCKER_ROOT}/:${JAVA_HOME}/bin:${SCALA_HOME}/bin:${GOROOT}/bin:${HOME}/bin:/mingw64/bin/:$PATH
+
 else
-    export PATH=/cygdrive/c/Data/opt/go/go-1.10.3/bin:/cygdrive/c/Data/opt/scala/scala-2.12.6/bin:/cygdrive/c/Data/opt/sbt/bin:/cygdrive/c/Data/bin:/cygdrive/c/Data/opt/java/jdk1.8.0_171/bin:"$PATH"
+
+        if [ -z "$(uname -a | grep Microsoft)" ]; then
+                export JAVA_HOME=${USEROPT}/java/jdk-8u181-linux-x64
+        fi
+
+        export USERLOCAL=${HOME}/.local
+        export USEROPT=${USERLOCAL}/opt
+
+        export GOROOT=${USEROPT}/go/go-1.10.3-linux-amd64
+        export PATH=${JAVA_HOME}/bin:${SCALA_HOME}/bin:${GOROOT}/bin:~/bin:$PATH
+        export NODE_REPL_HISTORY=${HOME}/.node_repl_history
+
 fi
+
 
 
 [ $TERM != "cygwin" ] && [ -z $TMUX ] && tmux
