@@ -72,6 +72,5 @@ else
 
 fi
 
+[ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]] && exec tmux
 
-
-[ $TERM != "cygwin" ] && [ -z $TMUX ] && tmux
