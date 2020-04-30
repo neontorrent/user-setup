@@ -5,6 +5,7 @@ alias vi=vim
 alias la='ls -al'
 alias clear='printf "\033c"'
 alias psw='ps -eflW'
+#alias psw="wmic process get 'processid,parentprocessid,name'"
 alias killw='taskkill /F /pid '
 alias killall='TaskKill /F /IM '
 
