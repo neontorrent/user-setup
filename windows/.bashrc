@@ -124,7 +124,7 @@ alias vi=vim
 
 if [ -n "$MSYSTEM" ]; then
     export ROOT_DIR=/d
-    export MINGW_ROOT=/
+    export MINGW_ROOT=
 elif [ -n "$WSLENV" ]; then
     export ROOT_DIR=/mnt/d
     export MINGW_ROOT=${ROOT_DIR}/Applications/msys64
