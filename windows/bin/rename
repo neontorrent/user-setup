@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [[ $1 =~ ^s.* ]]; then
+    use_regex=1;
+else
+    printf "Usage: ${0##*/} [options] regex files\n"
+    printf "options:\n"
+    printf "\t-r\trecursively rename"
+    printf "\n"
+    exit
+fi
+
+if [ $use_regex -eq 1 ]; then
+    regex="$1";
+    files=("${@:2}");
+    for oldName in "${files[@]}"; do
+        newName=$(perl -pe "$regex" <<< "$oldName")
+#        echo "oldName=$oldName"
+#        echo "newName=$newName"
+        if [ "$oldName" != "$newName" ]; then
+            if [ -f "$newName" ]; then
+                echo "File already existing: $newName"
+                exit
+            else
+                mv "$oldName" "$newName"
+            fi
+        fi
+    done
+fi

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" -o -z "$2" ]; then
+	echo 'Usage: [GhostScript options] output input1 input2 ...'
+	exit
+fi
+
+params=( "${@:1}" )
+
+echo 'Start Page?'
+read startPage
+if [ -n "$startPage" ]; then
+	paramSP="-dFirstPage=$startPage"
+fi
+
+echo 'End Page?'
+read endPage
+if [ -n "$endPage" ]; then
+	paramEP="-dLastPage=$endPage"
+fi
+
+echo 'Select PDF Output Quality
+1. Very low - 72 dpi
+2. Low - 150 dpi
+3. High - 300 dpi
+4. High - 300 dpi with color preserving
+5. Default - 72dpi for all devices
+(Empty)=4'
+read quality
+if [ -z "$quality" ]; then
+	quality=4
+fi
+qualityStr=( "" screen ebook printer prepress default )
+paramQ="-dPDFSETTINGS=//${qualityStr[$quality]}"
+
+#-sPAPERSIZE=letter -dAutoRotatePages=//None -c "<<//Orientation 0>> setpagedevice" 
+gs -sOutputFile="${params[0]}" -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -dSAFER -dFIXEDMEDIA -dPreserveAnnots=true $paramQ $paramSP $paramEP -dDEVICEWIDTHPOINTS=674 -dPDFFitPage "${params[@]:1}"

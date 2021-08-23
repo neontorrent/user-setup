@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+if [ -n "$(which ffmpeg)" ]; then
+    FFMPEG=ffmpeg
+elif [ -n "$(which ffmpeg.exe)" ]; then
+    FFMPEG=ffmpeg.exe
+fi
+
+
+while getopts "i:" f; do
+    if [ "i" == "$f" ]; then
+        inputfile=$OPTARG
+    fi
+done
+
+#args=("$@")
+#for i in "${!args[@]}"; do
+#    if [ "${args[$i]}" == "-i" ] || [ "${args[$i]}" == "$inputfile" ]; then
+#        unset 'args[i]'
+#    fi
+#done
+
+#args=("${args[@]/-i}")
+#args=("${args[@]/$inputfile}")
+
+args=()
+for v in "$@"; do
+    if [ "$v" != "-i" ] && [ "$v" != "$inputfile" ]; then
+        args+=($v)
+    fi
+done
+
+echo Input file: "$inputfile", Other options: "${args[*]}"
+
+WIDTH=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of default=nw=1:nk=1 $inputfile)
+HEIGHT=$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of default=nw=1:nk=1 $inputfile)
+
+if [ "$WIDTH" -gt "$HEIGHT" ]; then
+    if [ "$HEIGHT" -lt 720 ]; then
+        SCALE="-1:-1"
+    else
+        SCALE="-1:720"
+    fi
+else
+    if [ "$WIDTH" -lt 720 ]; then
+        SCALE="-1:-1"
+    else
+        SCALE="720:-1"
+    fi
+fi
+
+echo Width=$WIDTH, Height=$HEIGHT, Scale=$SCALE
+#ffmpeg -c:v libx264 -crf 18 -preset veryslow -c:a copy -vf "scale=-1:720" "$@"
+#$FFMPEG -i "$inputfile" -c:v libx264 -preset veryslow -c:a copy -vf "scale=720:-1" "${args[@]}"
+$FFMPEG -i "$inputfile" -c:v libx264 -preset veryslow -crf 25 -c:a copy -vf "scale=$SCALE" "${args[@]}" < /dev/null
