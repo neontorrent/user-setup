@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ];then
+  echo No drive specified.
+  exit
+fi
+d=$(echo $1 | cut -c1)
+echo Mounting $d drive
+sudo mkdir /mnt/$d
+sudo mount -t drvfs ${d}: /mnt/$d
