@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sudo pmset -a disablesleep 1
+sudo pmset -a sleep 0
+caffeinate -di
