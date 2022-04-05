@@ -1,0 +1,5 @@
+#!/bin/sh
+
+kill `ps -ef | grep caffeinate | grep -v grep | awk '{print $3}'`
+sudo pmset -a disablesleep 0
+pmset sleepnow
