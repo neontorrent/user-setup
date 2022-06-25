@@ -15,3 +15,14 @@ set bh=wipe
 set bs=indent,eol,start
 
 vnorem n y/<c-r>"<cr>
+
+set expandtab
+set showtabline=2
+set textwidth=0
+set wrapmargin=0
+set wrap
+colorscheme desert
+vnoremap <C-c> "+y
+vnoremap <C-v> "+gP
+vnorem << <<gv
+vnorem >> >>gv
