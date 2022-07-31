@@ -1,3 +1,5 @@
+#!/bin/sh
+
 for f in "$@"
 do
 	EXT="${f##*.}"
