@@ -21,6 +21,7 @@ set showtabline=2
 set textwidth=0
 set wrapmargin=0
 set wrap
+set number
 colorscheme desert
 vnoremap <C-c> "+y
 vnoremap <C-v> "+gP
