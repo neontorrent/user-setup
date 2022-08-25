@@ -27,3 +27,7 @@ vnoremap <C-c> "+y
 vnoremap <C-v> "+gP
 vnorem << <<gv
 vnorem >> >>gv
+vnorem p "_dP
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
