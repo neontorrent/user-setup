@@ -13,6 +13,19 @@ function git_branch_name()
   fi
 }
 
+function contains {
+    str="$1"
+    substr="$2"
+    [ "$str" != "${str/$substr/}" ] && echo "$substr"
+}
+
+function is_zsh {
+    shellprocname=$(ps -T -o command= $$)
+    contains "$shellprocname" "zsh"
+}
+
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
 setopt prompt_subst
 
 export PROMPT="[%n@%m %d%B%F{cyan}\$(git_branch_name)%f%b]"$'\n'"$ "
