@@ -1,0 +1,28 @@
+#!/bin/sh
+
+get_file_size() {
+    ls -l "$1" | awk '{ print $5 }'
+}
+
+# TODO compare date as well
+compare_and_copy() {
+    if [ -f "$2" -a "$(get_file_size "$2")" -lt "$(get_file_size "$1")" -o ! -f "$2" ]; then
+        cp -f "$1" "$2"
+    fi
+}
+
+input_len=$(($#-2))
+args=("$@")
+target="${args[${#args[@]}-1]}"
+
+if [ ! -d "$target" ]; then
+    echo "$target is not directory or does not exist"
+    exit 1
+fi
+
+for i in `seq 0 $input_len`; do
+    f="${args[$i]}"
+    if [ -f "$f" ]; then
+
+    echo $f
+done
