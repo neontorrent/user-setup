@@ -1,5 +1,17 @@
-#!/bin/sh
+#!/bin/zsh
 
-kill `ps -ef | grep caffeinate | grep -v grep | awk '{print $3}'`
-sudo pmset -a disablesleep 0
-pmset sleepnow
+PID=$(ps -ef | grep caffeinate | grep -v grep | awk '{print $2}')
+if [ -n "$PID" ]; then
+    sudo killall caffeinate
+fi
+
+ISDISABLED=$(pmset -g | grep SleepDisabled | awk '{print $2}')
+if [ "0" != "$ISDISABLED" ]; then
+    sudo pmset -a disablesleep 0
+fi
+
+print "Do you want to sleep now? (y/n)"
+read -qt 5 res
+if [ "y" = "$res" ] || [ "Y" = "$res" ] || [ "" = "$res" ]; then
+    pmset sleepnow
+fi
