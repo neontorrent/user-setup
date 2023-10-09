@@ -17,7 +17,7 @@ if [ $use_regex -eq 1 ]; then
     for oldName in "${files[@]}"; do
         newName=$(perl -pe "$regex" <<< "$oldName")
         if [ "$confirmed" != "y" ]; then
-            echo "Renaming $oldName into $newName. Confirm? (y/n)"
+            echo "Renaming files e.g. '$oldName' to '$newName'. Confirm? (y/n)"
             read confirmed
             if [ "$confirmed" != "y" ]; then
                 exit
