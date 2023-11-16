@@ -93,6 +93,13 @@ $btn3.add_click({
     $win.Close()
 })
 
+$btn4 = CreateButton "Full Context Menu"
+$btn4.add_click({
+    reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+    taskkill /f /im explorer.exe
+    start explorer.exe
+})
+
 $container = [TableLayoutPanel]::new()
 $container.Dock = [DockStyle]::Fill
 #$container.ColumnStyles.Add([ColumnStyle]::new([SizeType]::Percent, 33.333))
@@ -102,6 +109,7 @@ $container.Dock = [DockStyle]::Fill
 $container.Controls.Add($btn1)
 $container.Controls.Add($btn2)
 $container.Controls.Add($btn3)
+$container.Controls.Add($btn4)
 
 $win.Controls.Add($container)
 
