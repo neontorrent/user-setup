@@ -31,3 +31,22 @@ vnorem p "_dP
 
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+
+
+function! SetBinaryMode()
+    if !exists('#BinaryMode#BufReadPost')
+        augroup BinaryMode
+          au!
+          au BufReadPost * %!xxd
+          au BufReadPost * set ft=xxd
+          au BufWritePre * %!xxd -r
+          au BufWritePost * %!xxd
+          au BufReadPost * set ft=xxd
+          au BufWritePost * set nomod
+        augroup END
+        edit
+    endif
+endfunction
+
+au BufEnter *.bin call SetBinaryMode()
+com Binary call SetBinaryMode() | e

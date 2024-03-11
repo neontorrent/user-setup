@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -f `which yt-dlp` ]; then
+    DL=yt-dlp
+elif [ -f `which youtube-dl` ]; then
+    DL=youtube-dl
+else
+    echo "No youtube downloader found"
+    exit 1
+fi
+"$DL" -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "$@"

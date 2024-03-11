@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SOURCE="$1"
+DEST="$2"
+CWD="$PWD"
+
+if [ ! -d "$SOURCE" -o ! -d "$DEST" ]; then
+    echo "Source or destination parameters must be folders"
+    exit
+fi
+
+trap "cd $CWD; echo; exit" INT
+
+cd "$SOURCE"
+find . -type f -printf '%P\n' | while read f; do 
+    if [[ ! -f "$DEST/$f" ]]; then 
+        rsync -RP "$f" "$DEST"
+    fi
+done
+cd $CWD

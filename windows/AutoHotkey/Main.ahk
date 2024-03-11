@@ -1,5 +1,24 @@
 ﻿#Requires AutoHotkey v2.0
 
+SetTitleMatchMode('RegEx')
+#HotIf WinActive("ahk_class SunAwt.*")
+;!b::^b
+;$LWin::LAlt
+;$RWin::RAlt
+;$LAlt::LCtrl
+;$RAlt::RCtrl
+#!Left::^!Left
+#!Right::^!Right
+!w::^F4
+!p::^p
+!s::^s
+^j::^q
+!LButton::^LButton
+!Down::F4
+
+
+#HotIf not WinActive("ahk_class SunAwt.*")
+
 ;Alt::LWin
 !c::^c
 !v::^v
@@ -21,5 +40,73 @@
 ^e::End
 !+3::SendInput "<#{PrintScreen}"
 !+4::SendInput "{PrintScreen}"
+!+i::^+i
 !q::!F4
-!Backspace::Del
+!Enter::^Enter
+Browser_Home::Esc
+
+#HotIf WinActive("ahk_exe explorer.exe")
+!Backspace::
+{
+    if WinActive("ahk_class CabinetWClass") ; explorer
+    {
+        ; The control retrieved by this command is the one that has keyboard focus
+        FocusedControl := ControlGetClassNN(ControlGetFocus("A"))  ; A means the active window
+        ; MsgBox %FocusedControl%
+        if (FocusedControl ~= "i)(DirectUIHWND|DirectUIHWND2|SysListView)")
+             Send("^d")
+        else
+            Send("{delete}")
+    }
+    else
+        Send("{delete}")
+    return
+}
+Enter::
+{
+    if WinActive("ahk_class CabinetWClass") ; explorer
+    {
+        ; The control retrieved by this command is the one that has keyboard focus
+        FocusedControl := ControlGetClassNN(ControlGetFocus("A"))  ; A means the active window
+        ; MsgBox %FocusedControl%
+        if (FocusedControl ~= "i)(DirectUIHWND|DirectUIHWND2|SysListView)")
+             Send("{F2}")
+        else
+            Send("{Enter}")
+    }
+    else
+        Send("{Enter}")
+    return
+}
+!Down::
+{
+    if WinActive("ahk_class CabinetWClass") ; explorer
+    {
+        ; The control retrieved by this command is the one that has keyboard focus
+        FocusedControl := ControlGetClassNN(ControlGetFocus("A"))  ; A means the active window
+        ; MsgBox %FocusedControl%
+        if (FocusedControl ~= "i)(DirectUIHWND|DirectUIHWND2|SysListView)")
+             Send("{Enter}")
+        else
+            Send("!{Down}")
+    }
+    else
+        Send("!{Down}")
+    return
+}
+!LButton::
+{
+    if WinActive("ahk_class CabinetWClass") ; explorer
+    {
+        FocusedControl := ControlGetClassNN(ControlGetFocus("A"))  ; A means the active window
+        if (FocusedControl ~= "i)(DirectUIHWND|DirectUIHWND2|SysListView)")
+             Send("^{LButton}")
+        else
+            Send("!{LButton}")
+    }
+    else
+        Send("!{LButton}")
+    return
+}
+
+#HotIf

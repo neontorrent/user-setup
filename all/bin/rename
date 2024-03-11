@@ -14,17 +14,21 @@ if [ $use_regex -eq 1 ]; then
     regex="$1";
     files=("${@:2}");
     confirmed=n
+    if [ ! -e "${files[0]}" ]; then
+        echo "Files does not exists for input ${files}"
+        exit 1
+    fi
     for oldName in "${files[@]}"; do
         newName=$(perl -pe "$regex" <<< "$oldName")
-        if [ "$confirmed" != "y" ]; then
-            echo "Renaming files e.g. '$oldName' to '$newName'. Confirm? (y/n)"
-            read confirmed
-            if [ "$confirmed" != "y" ]; then
-                exit
-            fi
-        fi
-
         if [ "$oldName" != "$newName" ]; then
+            if [ "$confirmed" != "y" ]; then
+                echo "Renaming files e.g. '$oldName' to '$newName'. Confirm? (y/n)"
+                read confirmed
+                if [ "$confirmed" != "y" ]; then
+                    exit
+                fi
+            fi
+
             if [ -f "$newName" ]; then
                 echo "File already existing: $newName"
                 exit
