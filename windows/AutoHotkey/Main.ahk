@@ -1,5 +1,5 @@
 ﻿#Requires AutoHotkey v2.0
-
+#SingleInstance Force
 SetTitleMatchMode('RegEx')
 
 ; IntelliJ
@@ -83,6 +83,12 @@ Enter::
     return
 }
 
+#HotIf WinActive("ahk_exe WindowsTerminal.exe")
+!t::^+t
+!w::^+w
+!f::^+f
+
+
 ; Elsewhere
 #HotIf
 ;#HotIf not WinActive("ahk_class SunAwt.*")
@@ -112,3 +118,80 @@ Enter::
 !Enter::^Enter
 Browser_Home::Esc
 !Backspace::Del
+
+/*
+if not A_IsAdmin
+    Run("*RunAs `"" A_ScriptFullPath "`"")
+touchpadEnabled:=1
+#F1::
+{
+global touchpadEnabled
+#SingleInstance Force
+if not A_IsAdmin
+    Run("*RunAs `"" A_ScriptFullPath "`"")
+Run("SystemSettingsAdminFlows.exe EnableTouchPad " (touchpadEnabled := !touchpadEnabled))
+ToolTip("Touchpad enabled = " touchpadEnabled)
+SetTimer RemoveToolTip, 3000
+return
+}
+
+#Include LidWatcher.ahk
+r := Start_LidWatcher()
+OnExit(cleanup)
+
+cleanup(ExitReason, ExitCode)
+{
+  ;MsgBox("Cleanup")
+  Stop_LidWatcher(r)  ;Stop watching the lid state changes
+  ExitApp
+  return 1
+}
+
+LidStateChange(newstate)
+{
+  ;FormatTime(TimeString, "h:mm:ss tt")
+  ;FileAppend(The lid was %newstate% at %TimeString%`n, lid.log)
+  ;MgBox(newstate)
+  if (newstate)
+  {
+    Run('pnputil /enable-device "ACPI\PNP0C50\3&62D7E73&0"')
+  }
+  else
+  {
+    Run('pnputil /disable-device "ACPI\PNP0C50\3&62D7E73&0"')
+  }
+  ;ToggleDevice("ACPI\PNP0C50\3&62D7E73&0")
+  ToolTip("Touchpad enabled = " newstate)
+  SetTimer RemoveToolTip, 3000
+}
+
+
+RemoveToolTip()
+{
+SetTimer(RemoveToolTip, 0)
+ToolTip
+return
+}
+
+FadingMsgBox(text){
+	myGui := Gui()
+	myGui.Opt("+AlwaysOnTop +ToolWindow -SysMenu -Caption")
+	myGui.BackColor := "ffffff" ;changes background color
+	myGui.SetFont("000000 s20 bold", "Verdana") ;changes font color, size and font
+	myGui.Add("Text", "x0 y0", text) ;the text to display
+	myGui.Title := "Xn: 0"
+	myGui.Show("NoActivate", , "Yn: 0")
+
+	Sleep(5000)
+	myGui.Destroy()
+}
+; Run C:\Windows\System32\DevManView.exe /enable "HID-compliant touch screen"	; path to DevManView and enable device with this name/ID
+
+ToggleDevice(device_id) {
+  command := 'pnputil /enum-devices /instanceid "' device_id '" | find "Status"'
+  result := ComObject("WScript.Shell").Exec(A_ComSpec ' /C "' command '"').StdOut.ReadAll()
+  status := InStr(result, "Disabled") ? 'enable' : 'disable'
+  Run('pnputil /' status '-device "' device_id '"')
+  return status = "enable"
+}
+*/
